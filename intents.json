@@ -1,0 +1,13 @@
+{
+    "intents":[
+        {
+            "tag":"greetings",
+            "patterns":[
+                "Hi", "Hello", "Hey", "What's up", "Good day",
+                "嗨"
+
+            ]
+
+        }
+    ]
+}
