@@ -1,38 +1,21 @@
+# encoding: utf-8
+
 import os
-import json
 import discord
 from dotenv import load_dotenv
 
-from neuralintents import GenericAssistant
-
-with open('intents.json','r',encoding='utf-8') as fp:
-    data = json.loads(fp.read())
-
-with open('intents.json','w',encoding='utf-8') as fp:
-    fp.write(json.dumps(data,indent=2))
-
-chatbot = GenericAssistant('intents.json')
-# chatbot.train_model()
-# chatbot.save_model()
-chatbot.load_model()
-
 class MyClient(discord.Client):
     async def on_ready(self):
-        print('目前登入身份：', client.user)
+        print('目前登入身份：', self.user)
         
     async def on_message(self, message:discord.Message):
-        if message.author == client.user:
+        if message.author == self.user:
             return
-        print (message.content, message.channel)
-        response = chatbot.request(message.content)
-        await message.channel.send(response)
+        await message.channel.send(f'你在 {message.channel} 說： {message.content}')
+        
+if __name__ == "__main__":
+    load_dotenv()
+    TOKEN = os.getenv('TOKEN')
 
-load_dotenv()
-
-TOKEN = os.getenv('TOKEN')
-
-print (f"Bot running ...")
-
-client = MyClient()
-
-client.run(TOKEN)
+    client = MyClient()
+    client.run(TOKEN)
